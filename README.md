@@ -1,4 +1,4 @@
-echo "# Projeto Pokémon API
+## Projeto Pokémon API
 
 Este projeto consiste em uma aplicação com um backend em Ruby on Rails, um frontend em Node.js e Nginx, e um banco de dados PostgreSQL. O objetivo é buscar informações de Pokémon usando a PokeAPI e armazená-las localmente em um banco de dados.
 
