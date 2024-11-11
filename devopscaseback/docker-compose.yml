@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  # Serviço do backend em Ruby
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=changeme
+      - RAILS_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - app_network
+
+  # Serviço do banco de dados PostgreSQL
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=pokemon_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
+
+  # Serviço do frontend em Node.js e Nginx
+  frontend:
+    build:
+      # Use o caminho absoluto para o diretório frontend
+      context: "C:/Users/Dev/Downloads/DevOps/DevOps/devopscasefront"
+    ports:
+      - "8080:80"  # Exponha o frontend na porta 8080
+    networks:
+      - app_network
+    
+networks:
+  app_network:
+
+volumes:
+  pg_data:

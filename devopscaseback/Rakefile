@@ -1,0 +1,31 @@
+# frozen_string_literal: true
+
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+
+require_relative 'config/application'
+
+Rails.application.load_tasks
+
+# Task personalizada para carregar o init.sql
+namespace :db do
+  desc "Load init.sql after database creation"
+  task load_init_sql: :environment do
+    sql_file = Rails.root.join('db', 'init.sql')
+    
+    if File.exist?(sql_file)
+      # Executa o arquivo init.sql no banco de dados de desenvolvimento
+      if Rails.env.development?
+        system("psql -U #{ENV['DATABASE_USERNAME']} -d pokeapi_development -f #{sql_file}")
+      elsif Rails.env.test?
+        # Executa o arquivo init.sql no banco de dados de teste
+        system("psql -U #{ENV['DATABASE_USERNAME']} -d pokeapi_test -f #{sql_file}")
+      end
+    else
+      puts "Arquivo init.sql não encontrado em #{sql_file}. Certifique-se de que o arquivo está presente."
+    end
+  end
+end
+
+# Assegura que o init.sql seja carregado após db:setup
+Rake::Task["db:setup"].enhance(["db:load_init_sql"])
