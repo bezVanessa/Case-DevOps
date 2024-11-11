@@ -103,4 +103,4 @@ Define a tarefa \`db:load_init_sql\` para carregar o arquivo \`init.sql\` automa
 Infelizmente, devido a conflitos de versões entre as dependências e o ambiente da minha máquina, não foi possível realizar a execução precisa do banco de dados para garantir a integração perfeita entre o PostgreSQL e o backend. Acredito que esse problema de versão pode ser resolvido com a atualização das dependências e ajustes nas versões de imagem dos contêineres, mas não foi possível solucionar completamente até o momento.
 
 A integração entre o backend, frontend e banco de dados é realizada com o Docker Compose, que orquestra os três serviços. O backend interage diretamente com o banco de dados PostgreSQL usando o arquivo \`database.yml\` para configurar a conexão, enquanto o frontend se comunica com o backend via API para buscar as informações dos Pokémon.
-" > README.md
+
